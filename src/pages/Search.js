@@ -7,10 +7,14 @@ import Alert from "../components/Alert";
 
 class Search extends Component {
     state = {
-
+        //create properties in here; search input box needs to be saved in here-- capture the value in this box, and with that value, we'll do the filtering
+        //AND then all of the random people need to be stored in state
+        //UI is updated every single time state is changing
     };
 
     //create didMount and pairing data as props to other components here
+
+    //use this to sort: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 
 
     render() {
