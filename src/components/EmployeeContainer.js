@@ -39,15 +39,17 @@ class EmployeeContainer extends Component {
   //add the function to search employees-- will probably be a filter, to filter through the state
   searchEmployees = (searchTerm) => {
     if (!this.state.search) {
-      this.setState({ result: this.state.result })
+      this.setState({ filteredResult: this.state.result })
       return
     }
     const filteredPeople = this.state.result.filter((item) => {
       console.log(item);
       return item.name.first.includes(this.state.search)
+        || item.name.last.includes(this.state.search)
+
       //this is where you'll have the logic for comparing, JS comparison function
     })
-    this.setState({ result: filteredPeople })
+    this.setState({ filteredResult: filteredPeople })
     //this returns an array of the items that match the query
 
   }
@@ -74,10 +76,26 @@ class EmployeeContainer extends Component {
             <Card
               heading={this.state.result.Title || "Search for an Employee here."}
             >
-              {this.state.result.map((person) => (
-                //build this into a a table
-                <p>{person.name.first}</p>
-              ))}
+              <table>
+                <caption>Employees</caption>
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>D.O.B.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.filteredResult.map((person, index) => (
+                    <tr key={index}>
+                      <EmployeeDetail {...person} />
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
             </Card>
           </Col>
           <Col size="md-4">
