@@ -13,7 +13,8 @@ class EmployeeContainer extends Component {
     this.searchEmployees = this.searchEmployees.bind(this)
   }
   state = {
-    result: {},
+    result: [],
+    filteredResult: [],
     search: ""
   };
 
@@ -25,16 +26,28 @@ class EmployeeContainer extends Component {
   //this is where we need API.EmployeeDetail().then...the rest of line 24 and onward?
   getEmployees = () => {
     API.search()
-      .then(res => { console.log(res); return this.setState({ result: res.data.results }) })
+      .then(res => {
+        console.log(res);
+        return this.setState({
+          result: res.data.results,
+          filteredResult: res.data.results
+        })
+      })
       .catch(err => console.log(err));
   };
 
   //add the function to search employees-- will probably be a filter, to filter through the state
   searchEmployees = (searchTerm) => {
-    this.state.result.filter((item) => {
-      console.log(item)
+    if (!this.state.search) {
+      this.setState({ result: this.state.result })
+      return
+    }
+    const filteredPeople = this.state.result.filter((item) => {
+      console.log(item);
+      return item.name.first.includes(this.state.search)
       //this is where you'll have the logic for comparing, JS comparison function
     })
+    this.setState({ result: filteredPeople })
     //this returns an array of the items that match the query
 
   }
@@ -61,19 +74,10 @@ class EmployeeContainer extends Component {
             <Card
               heading={this.state.result.Title || "Search for an Employee here."}
             >
-              {this.state.result.Title ? (
-                <EmployeeDetail
-                  src={this.state.result.picture.thumbnail}
-                  firstName={this.state.result.name.first}
-                  firstName={this.state.result.name.last}
-                  phone={this.state.result.phone}
-                  email={this.state.result.email}
-                  birthday={this.state.result.dob.date}
-                />
-                //shorthanded if/else statement
-              ) : (
-                  <h3>No Results to Display</h3>
-                )}
+              {this.state.result.map((person) => (
+                //build this into a a table
+                <p>{person.name.first}</p>
+              ))}
             </Card>
           </Col>
           <Col size="md-4">
