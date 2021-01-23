@@ -70,6 +70,7 @@ class EmployeeContainer extends Component {
 
   //writing a function that will sort this.state.filteredResult based on a given criteria
   //Then add a button to each header in your table that you want the user to be able to sort on. The click event for the button should call the function that I mentioned above
+  //use an arrow function for any method on a class that you want to be able to access the “this” and “this.state” and “this.setState” that belong to the class
 
 
 
@@ -79,8 +80,8 @@ class EmployeeContainer extends Component {
   //   this.sortByName = this.sortByName.bind(this);
   // };
 
-  sortByName() {
-    filteredResult.sort((a, b) => {
+  sortByName = () => {
+    this.state.filteredResult.sort((a, b) => {
       if (a.name < b.name) {
         return -1;
       }
