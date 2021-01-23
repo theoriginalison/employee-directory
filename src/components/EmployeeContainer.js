@@ -18,12 +18,10 @@ class EmployeeContainer extends Component {
     search: ""
   };
 
-  // When this component mounts, search for an employee
   componentDidMount() {
     this.getEmployees();
   }
 
-  //this is where we need API.EmployeeDetail().then...the rest of line 24 and onward?
   getEmployees = () => {
     API.search()
       .then(res => {
@@ -36,7 +34,6 @@ class EmployeeContainer extends Component {
       .catch(err => console.log(err));
   };
 
-  //add the function to search employees-- will probably be a filter, to filter through the state
   searchEmployees = (searchTerm) => {
     if (!this.state.search) {
       this.setState({ filteredResult: this.state.result })
@@ -46,11 +43,8 @@ class EmployeeContainer extends Component {
       console.log(item);
       return item.name.first.includes(this.state.search)
         || item.name.last.includes(this.state.search)
-
-      //this is where you'll have the logic for comparing, JS comparison function
     })
     this.setState({ filteredResult: filteredPeople })
-    //this returns an array of the items that match the query
 
   }
 
@@ -62,26 +56,13 @@ class EmployeeContainer extends Component {
     });
   };
 
-  // When the form is submitted, search the OMDB API for the value of `this.state.search`
   handleFormSubmit = event => {
     event.preventDefault();
     this.searchEmployees(this.state.search);
   };
 
-  //writing a function that will sort this.state.filteredResult based on a given criteria
-  //Then add a button to each header in your table that you want the user to be able to sort on. The click event for the button should call the function that I mentioned above
-  //use an arrow function for any method on a class that you want to be able to access the “this” and “this.state” and “this.setState” that belong to the class
-
-
-
-  // constructor(props) {
-  //   super(props)
-  //   this.state = { filteredResult }
-  //   this.sortByName = this.sortByName.bind(this);
-  // };
-
   sortByName = () => {
-    this.state.filteredResult.sort((a, b) => {
+    let sortedNames = this.state.filteredResult.sort((a, b) => {
       if (a.name.last < b.name.last) {
         return -1;
       }
@@ -89,9 +70,9 @@ class EmployeeContainer extends Component {
         return 1;
       }
       return 0;
-    }
-      //set the state here, using setState; After you filter the users you need to use the filtered list to set the state; you should send an object to setState
+    },
     );
+    this.setState({ filteredResult: sortedNames })
   }
 
 
