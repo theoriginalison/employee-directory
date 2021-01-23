@@ -89,7 +89,9 @@ class EmployeeContainer extends Component {
         return 1;
       }
       return 0;
-    });
+    }
+      //set the state here, using setState; After you filter the users you need to use the filtered list to set the state; you should send an object to setState
+    );
   }
 
 
