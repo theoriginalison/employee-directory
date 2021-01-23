@@ -68,6 +68,30 @@ class EmployeeContainer extends Component {
     this.searchEmployees(this.state.search);
   };
 
+  //writing a function that will sort this.state.filteredResult based on a given criteria
+  //Then add a button to each header in your table that you want the user to be able to sort on. The click event for the button should call the function that I mentioned above
+
+
+
+  // constructor(props) {
+  //   super(props)
+  //   this.state = { filteredResult }
+  //   this.sortByName = this.sortByName.bind(this);
+  // };
+
+  sortByName() {
+    filteredResult.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+
   render() {
     return (
       <Container>
@@ -81,7 +105,7 @@ class EmployeeContainer extends Component {
                 <thead>
                   <tr>
                     <th>Image</th>
-                    <th>Name</th>
+                    <th><button onClick={this.sortByName}>Name</button></th>
                     <th>Phone</th>
                     <th>Email</th>
                     <th>D.O.B.</th>
