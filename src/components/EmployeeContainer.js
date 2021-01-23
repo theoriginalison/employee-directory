@@ -82,10 +82,10 @@ class EmployeeContainer extends Component {
 
   sortByName = () => {
     this.state.filteredResult.sort((a, b) => {
-      if (a.name < b.name) {
+      if (a.name.last < b.name.last) {
         return -1;
       }
-      if (a.name > b.name) {
+      if (a.name.last > b.name.last) {
         return 1;
       }
       return 0;
