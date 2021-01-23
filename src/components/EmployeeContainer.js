@@ -54,6 +54,8 @@ class EmployeeContainer extends Component {
 
   }
 
+
+
   handleInputChange = event => {
     const value = event.target.value;
     const name = event.target.name;
@@ -68,49 +70,133 @@ class EmployeeContainer extends Component {
     this.searchEmployees(this.state.search);
   };
 
-  render() {
-    return (
-      <Container>
-        <Row>
-          <Col size="md-8">
-            <Card
-              heading={this.state.result.Title || "Search for an Employee here."}
-            >
-              <table>
-                <caption>Employees</caption>
-                <thead>
-                  <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>D.O.B.</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.state.filteredResult.map((person, index) => (
-                    <tr key={index}>
-                      <EmployeeDetail {...person} />
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+  const useSortableData = (items, config = null) => {
+    const [sortConfig, setSortConfig] = React.useState(config);
 
-            </Card>
-          </Col>
-          <Col size="md-4">
-            <Card heading="Search">
-              <SearchForm
-                value={this.state.search}
-                handleInputChange={this.handleInputChange}
-                handleFormSubmit={this.handleFormSubmit}
-              />
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    );
+    const sortedItems = React.useMemo(() => {
+      let sortableItems = [...items];
+      if (sortConfig !== null) {
+        sortableItems.sort((a, b) => {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+      return sortableItems;
+    }, [items, sortConfig]);
+
+    const requestSort = key => {
+      let direction = 'ascending';
+      if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+        direction = 'descending';
+      }
+      setSortConfig({ key, direction });
+    }
+
+    return { items: sortedItems, requestSort };
   }
-}
 
-export default EmployeeContainer;
+  const EmployeeTable = (props) => {
+    const { products } = props;
+    const [sortConfig, setSortConfig] = React.useState(null);
+
+    React.useMemo(() => {
+      let sortedEmployees = [...employees];
+      if (sortedField !== null) {
+        sortedEmployees.sort((a, b) => {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+      return sortedEmployees;
+    }, [employees, sortConfig]);
+
+    sortedEmployees.sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+
+    const requestSort = key => {
+      let direction = 'ascending';
+      if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+        direction = 'descending';
+      }
+      setSortConfig({ key, direction });
+    }
+
+    render() {
+      const EmployeeTable = (props) => {
+        const { products } = props;
+        const [sortedField, setSortedField] = React.useState(null);
+        let sortedProducts = [...products];
+        if (sortedField !== null) {
+          sortedProducts.sort((a, b) => {
+            if (a[sortedField] < b[sortedField]) {
+              return -1;
+            }
+            if (a[sortedField] > b[sortedField]) {
+              return 1;
+            }
+            return 0;
+          });
+        }
+        return (
+          <Container>
+            <Row>
+              <Col size="md-8">
+                <Card
+                  heading={this.state.result.Title || "Search for an Employee here."}
+                >
+                  <table>
+                    <caption>Employees</caption>
+                    <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th><button type="button" onClick={() => requestSort('name')}>Name</button></th>
+                        <th><button type="button" onClick={() => requestSort('phone')}>Phone</button></th>
+                        <th><button type="button" onClick={() => requestSort('email')}>Email</button></th>
+                        <th><button type="button" onClick={() => requestSort('dob')}>D.O.B.</button></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.filteredResult.map((person, index) => (
+                        <tr key={index}>
+                          <EmployeeDetail {...person} />
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                </Card>
+              </Col>
+              <Col size="md-4">
+                <Card heading="Search">
+                  <SearchForm
+                    value={this.state.search}
+                    handleInputChange={this.handleInputChange}
+                    handleFormSubmit={this.handleFormSubmit}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        );
+      }
+    };
+  }
+
+  export default EmployeeContainer;
