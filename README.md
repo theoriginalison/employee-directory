@@ -2,7 +2,7 @@
 ![Badge for MIT](https://img.shields.io/badge/license-MIT-green)
 
 ## Description
-A dynamic employee directory where users can search for employee by any part of a name (case-sensitive). Employees can also be sorted by email address.
+A dynamic employee directory where users can search for employee by any part of a name (case-sensitive). Employees can also be sorted alphabetically by last name, either as a whole list, or after a search.
 
 ## Table of Contents
 * [Installation](#installation)
@@ -17,10 +17,13 @@ A dynamic employee directory where users can search for employee by any part of 
 Install npm packages as usual, and all dependencies.
 
 ## Usage
-After installing all depenencies, start the server. Then, open the app in your browser. As it is, you'll use local host 3000.
+After installing all depenencies, start the server. Then, open the app in your browser. As it is, you'll use local host 3000. Click on the "Name" button to sort employees.
 
 ## Screeshots
-![Screenshot of ](.)
+![Screenshot of Employee List](./public/assets/employee-list.png)
+![Screenshot of Search Results](./public/assets/search-results.png)
+![Screenshot of Sorted Search Results](./public/assets/search-sorted.png)
+![Screenshot of All Employees Sorted](./public/assets/all-sorted.png)
 
 ## License
 MIT License
